@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use backend\models\Complaints;
-
+use frontend\models\Customer;
 /**
  * ComplaintsSearch represents the model behind the search form about `backend\models\Complaints`.
  */
@@ -18,8 +18,8 @@ class ComplaintsSearch extends Complaints
     public function rules()
     {
         return [
-            [['comp_id', 'issue_id', 'user_regid'], 'integer'],
-            [['comp_desc', 'created_date'], 'safe'],
+            [['comp_id', 'issue_id'], 'integer'],
+            [['comp_desc', 'created_date','user_regid'], 'safe'],
         ];
     }
 
@@ -42,13 +42,16 @@ class ComplaintsSearch extends Complaints
     public function search($params)
     {
         $query = Complaints::find();
-
+        $query->joinWith(['customer']);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
+        $dataProvider->sort->attributes['user_regid'] = [
+            'asc' => [Customer::tableName().'.user_name' => SORT_ASC],
+            'desc' => [Customer::tableName().'.user_name' => SORT_DESC],
+        ];
         $this->load($params);
 
         if (!$this->validate()) {
@@ -61,12 +64,12 @@ class ComplaintsSearch extends Complaints
         $query->andFilterWhere([
             'comp_id' => $this->comp_id,
             'issue_id' => $this->issue_id,
-            'user_regid' => $this->user_regid,
+            //'user_regid' => $this->user_regid,
             'created_date' => $this->created_date,
         ]);
-
+        $query->andFilterWhere(['like', Customer::tableName().'.user_name', $this->user_regid]);
         $query->andFilterWhere(['like', 'comp_desc', $this->comp_desc]);
-
+        
         return $dataProvider;
     }
 }

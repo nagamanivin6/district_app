@@ -1,7 +1,7 @@
 <?php
 
 namespace backend\models;
-
+use frontend\models\Customer;
 use Yii;
 
 /**
@@ -51,7 +51,14 @@ class Complaints extends \yii\db\ActiveRecord
             'status' => Yii::t('app', 'Status'),
         ];
     }
+    public function getCustomer()
+    {
+            return $this->hasOne(Customer::className(), ['user_id' => 'user_regid']);
+    }
 
+    public function getCustomerName() {
+            return $this->customer->user_name;
+    }
     /**
      * @inheritdoc
      * @return ComplaintsQuery the active query used by this AR class.
