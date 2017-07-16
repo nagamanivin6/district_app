@@ -19,19 +19,19 @@
                     <span ng-show="ComplaintForm.village.$dirty && ComplaintForm.village.$invalid" class="help-block">Village is required</span>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error': ComplaintForm.issue.$dirty && ComplaintForm.issue.$invalid }">
-                    <label class="control-label" for="issue">Village</label>
+                    <label class="control-label" for="issue">Issue</label>
                     <select  id="issue" class="form-control input-sm" name="issue" ng-model="complaint.complaintInfo.issue" ng-options="key as value for (key , value) in issues" required>
                         <option value="">Select Issue</option> 
                     </select>
                     <span ng-show="ComplaintForm.issue.$dirty && ComplaintForm.issue.$invalid" class="help-block">Issue is required</span>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error': ComplaintForm.description.$dirty && ComplaintForm.description.$invalid }">
-                    <label class="control-label" for="description">Village</label>
+                    <label class="control-label" for="description">Issue Description</label>
                     <textarea  id="description" class="form-control input-sm" name="description" ng-model="complaint.complaintInfo.description"  required></textarea>
                     <span ng-show="ComplaintForm.description.$dirty && ComplaintForm.description.$invalid" class="help-block">Description is required</span>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Login</button>                
+                    <button type="submit" class="btn btn-primary">Submit</button>                
                 </div>
                 
             </form>

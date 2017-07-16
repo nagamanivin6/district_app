@@ -27,7 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'comp_id',
             'comp_desc',
             'issue_id',
-            'user_regid',
+            //'user_regid',
+            [
+            'attribute' => 'user_regid',
+            'value' => 'customer.user_name'
+            ],
             'created_date',
 
             ['class' => 'yii\grid\ActionColumn'],
