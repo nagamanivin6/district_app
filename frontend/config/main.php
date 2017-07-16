@@ -13,10 +13,17 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
+             'class' => '\yii\web\Request',
+             'enableCookieValidation' => false,
             'csrfParam' => '_csrf-frontend',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'frontend\models\Customer',
+            'enableSession' => false,
+            'loginUrl' => null,
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],

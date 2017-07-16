@@ -31,7 +31,7 @@ class Complaints extends \yii\db\ActiveRecord
     {
         return [
             [['comp_desc', 'issue_id', 'user_regid', 'created_date', 'status'], 'required'],
-            [['issue_id', 'user_regid', 'status'], 'integer'],
+            [['issue_id', 'user_regid', 'status','mandal_id','village_id'], 'integer'],
             [['created_date'], 'safe'],
             [['comp_desc'], 'string', 'max' => 255],
         ];

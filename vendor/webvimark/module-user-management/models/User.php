@@ -28,6 +28,11 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $superadmin
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer dept_id
+ * @property integer emp_id
+ * @property integer emp_phmob
+ * @property integer emp_phres
+ * @property integer emp_address
  */
 class User extends UserIdentity
 {
@@ -248,12 +253,12 @@ class User extends UserIdentity
 	public function rules()
 	{
 		return [
-			['username', 'required'],
+			[['username','emp_id'], 'required'],
 			['username', 'unique'],
 			['username', 'trim'],
 
-			[['status', 'email_confirmed'], 'integer'],
-
+			[['status', 'email_confirmed','dept_id','superadmin'], 'integer'],
+			[['emp_phmob', 'emp_phres','emp_address','emp_id'], 'string'],
 			['email', 'email'],
 			['email', 'validateEmailConfirmedUnique'],
 
@@ -316,7 +321,7 @@ class User extends UserIdentity
 	{
 		return [
 			'id'                 => 'ID',
-			'username'           => UserManagementModule::t('back', 'Login'),
+			'username'           => UserManagementModule::t('back', 'Username'),
 			'superadmin'         => UserManagementModule::t('back', 'Superadmin'),
 			'confirmation_token' => UserManagementModule::t('back', 'Confirmation Token'),
 			'registration_ip'    => UserManagementModule::t('back', 'Registration IP'),
@@ -329,6 +334,7 @@ class User extends UserIdentity
 			'repeat_password'    => UserManagementModule::t('back', 'Repeat password'),
 			'email_confirmed'    => UserManagementModule::t('back', 'E-mail confirmed'),
 			'email'              => UserManagementModule::t('back', 'E-mail'),
+			'emp_id' 		 	 => UserManagementModule::t('back', 'Employee Id'),
 		];
 	}
 

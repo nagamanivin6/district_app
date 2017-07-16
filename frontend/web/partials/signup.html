@@ -1,0 +1,124 @@
+<div class="site-signup" ng-controller="SignupController as signup">
+    <h4 style="text-align:center" >New Citizen registration form</h4>
+    <div class="row">
+         <form name="signupForm" id="signup-form" class="form-horizontal"  ng-submit="register()" method="post" role="form">
+        <div class="col-lg-6">
+               <div class="form-group" ng-class="{ 'has-error': error['user_name'] && submitted }">
+                    <label class="control-label col-sm-3" for="user_name"> Citizen Name:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_name" name="user_name" ng-model="signup.user.user_name" required >
+                        <span ng-show="error['user_name'] && submitted" class="help-block">{{error['user_name']}}</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': error['user_mother'] && submitted }">
+                    <label class="control-label col-sm-3" for="user_mother">Mother Name:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_mother" name="user_mother" ng-model="signup.user.user_mother" required >
+                         <span ng-show="error['user_mother'] && submitted" class="help-block">{{error['user_mother']}}</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': error['user_father'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_father">Father Name:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_father" name="user_father" ng-model="signup.user.user_father" required >
+                          <span ng-show="error['user_father'] && submitted" class="help-block ">{{error['user_father']}}</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': error['user_email'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_email">Email:</label>
+                    <div class="col-sm-9">
+                        <input type="user_email" class="form-control input-sm" id="user_email" name="user_email" ng-model="signup.user.user_email" required >
+                        <span ng-show="error['user_email'] && submitted" class="help-block ">{{error['user_email']}}</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': error['user_phone'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_phone">Mobile No:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_phone" name="user_phone" ng-model="signup.user.user_phone" required >
+                        <span ng-show="serror['user_phone'] && submitted" class="help-block ">{{error['user_phone']}}</span>
+                    </div> 
+                </div>
+               <div class="form-group" ng-class="{ 'has-error': error['user_uid'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_uid">Aadhar Id:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_uid" name="user_uid" ng-model="signup.user.user_uid" required >
+                         <!--<span ng-show="signupForm.user_uid.$dirty && signupForm.user_uid.$error.required && signupForm.user_uid.$invalid" class="help-block ">Aadhar is required</span>-->
+                         <span ng-show="error['user_uid'] && submitted" class="help-block ">{{error['user_uid']}}</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': error['user_gender'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_gender">Gender:</label>
+                    <div class="col-sm-9">
+                        <input  id="user_gender" name="user_gender" type="radio" ng-model="signup.user.user_gender" value=1>Male
+                        <input id="user_gender" name="user_gender" type="radio" ng-model="signup.user.user_gender" value=0>Female
+                        <span ng-show="error['user_gender'] && submitted" class="help-block ">{{error['user_gender']}}</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error':  error['user_dob'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_dob">Date of Birth:</label>
+                    <div class="col-sm-9">
+                        <input  id="user_dob" type="date" class="form-control input-sm" name="user_dob" ng-model="signup.user.user_dob"  required>
+                         <span ng-show="error['user_dob'] && submitted" class="help-block ">{{error['user_dob']}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group" ng-class="{ 'has-error': error['user_hno'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_hno"> Hno:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_hno" name="user_hno" ng-model="signup.user.user_hno" required >
+                        <span ng-show="error['user_hno'] && submitted" class="help-block">{{error['user_hno']}}</span>
+                    </div>
+                    
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': error['user_area'] && submitted }">
+                    <label class="control-label col-sm-3" for="user_area"> Area:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_area" name="user_area" ng-model="signup.user.user_area" required >
+                        <span ng-show="error['user_area'] && submitted" class="help-block ">{{error['user_area']}}</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': error['user_dist'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_dist">District:</label>
+                    <div class="col-sm-9">
+                        <select  id="user_dist" class="form-control input-sm" name="user_dist" ng-model="signup.user.user_dist" ng-options="key as value for (key , value) in districts" required></select>
+                        <span ng-show="error['user_dist'] && submitted" class="help-block ">{{error['user_dist']}}</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': error['user_mandal'] && submitted }">
+                    <label class="control-label col-sm-3" for="user_mandal"> Mandal:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_mandal" name="user_mandal" ng-model="signup.user.user_mandal" required >
+                        <span ng-show="error['user_mandal'] && submitted" class="help-block ">{{error['user_mandal']}}</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': error['user_village'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_village"> Village:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_village" name="user_village" ng-model="signup.user.user_village" required >
+                        <span ng-show=" error['user_village'] && submitted" class="help-block ">{{error['user_village']}}</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error':  error['user_pin'] && submitted }">
+                    <label class="control-label col-sm-3" for="user_pin"> Pincode:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_pin" name="user_pin" ng-model="signup.user.user_pin" required >
+                        <span ng-show=" error['user_pin'] && submitted" class="help-block ">{{error['user_pin']}}</span>
+                    </div>
+                </div>
+                 <div class="form-group" ng-class="{ 'has-error':  error['user_password'] && submitted }">
+                    <label class="control-label col-sm-3" for="user_password"> Password:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_password" name="user_password" ng-model="signup.user.user_password" required >
+                        <span ng-show=" error['user_password'] && submitted" class="help-block ">{{error['user_password']}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"> 
+                    <div class="col-sm-offset-6 col-sm-6">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
