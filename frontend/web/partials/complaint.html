@@ -1,0 +1,40 @@
+<div class="site-complaint" ng-controller="ComplaintController as complaint">
+
+    <p>Please fill out the following fields to raise complaint:</p>
+    <div class="row">
+        <div class="col-lg-5">
+         <form id="complaint-form" name="ComplaintForm" ng-submit="raiseComplaint()" method="post" role="form">
+                <div class="form-group" ng-class="{ 'has-error': ComplaintForm.mandal.$dirty && ComplaintForm.mandal.$invalid }">
+                    <label class="control-label" for="mandal">Mandal</label>
+                    <select  id="mandal" class="form-control input-sm" name="mandal" ng-change="getVillages()" ng-model="complaint.complaintInfo.mandal" ng-options="key as value for (key , value) in mandals" required>
+                        <option value="">Select Mandal</option> 
+                    </select>
+                    <span ng-show="ComplaintForm.mandal.$dirty && ComplaintForm.mandal.$invalid" class="help-block">Mandal is required</span>
+                </div>
+                 <div class="form-group" ng-class="{ 'has-error': ComplaintForm.village.$dirty && ComplaintForm.village.$invalid }">
+                    <label class="control-label" for="village">Village</label>
+                    <select  id="village" class="form-control input-sm" name="village" ng-model="complaint.complaintInfo.village" ng-options="key as value for (key , value) in villages" required>
+                        <option value="">Select Village</option> 
+                    </select>
+                    <span ng-show="ComplaintForm.village.$dirty && ComplaintForm.village.$invalid" class="help-block">Village is required</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': ComplaintForm.issue.$dirty && ComplaintForm.issue.$invalid }">
+                    <label class="control-label" for="issue">Village</label>
+                    <select  id="issue" class="form-control input-sm" name="issue" ng-model="complaint.complaintInfo.issue" ng-options="key as value for (key , value) in issues" required>
+                        <option value="">Select Issue</option> 
+                    </select>
+                    <span ng-show="ComplaintForm.issue.$dirty && ComplaintForm.issue.$invalid" class="help-block">Issue is required</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': ComplaintForm.description.$dirty && ComplaintForm.description.$invalid }">
+                    <label class="control-label" for="description">Village</label>
+                    <textarea  id="description" class="form-control input-sm" name="description" ng-model="complaint.complaintInfo.description"  required></textarea>
+                    <span ng-show="ComplaintForm.description.$dirty && ComplaintForm.description.$invalid" class="help-block">Description is required</span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Login</button>                
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</div>

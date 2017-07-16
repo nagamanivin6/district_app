@@ -72,11 +72,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'columns' => [
 					['class' => 'yii\grid\SerialColumn', 'options'=>['style'=>'width:10px'] ],
 
-					[
-						'class'=>'webvimark\components\StatusColumn',
-						'attribute'=>'superadmin',
-						'visible'=>Yii::$app->user->isSuperadmin,
-					],
+					// [
+					// 	'class'=>'webvimark\components\StatusColumn',
+					// 	'attribute'=>'superadmin',
+					// 	'visible'=>Yii::$app->user->isSuperadmin,
+					// ],
 
 					[
 						'attribute'=>'username',
@@ -95,36 +95,36 @@ $this->params['breadcrumbs'][] = $this->title;
 						'attribute'=>'email_confirmed',
 						'visible'=>User::hasPermission('viewUserEmail'),
 					],
-					[
-						'attribute'=>'gridRoleSearch',
-						'filter'=>ArrayHelper::map(Role::getAvailableRoles(Yii::$app->user->isSuperAdmin),'name', 'description'),
-						'value'=>function(User $model){
-								return implode(', ', ArrayHelper::map($model->roles, 'name', 'description'));
-							},
-						'format'=>'raw',
-						'visible'=>User::hasPermission('viewUserRoles'),
-					],
-					[
-						'attribute'=>'registration_ip',
-						'value'=>function(User $model){
-								return Html::a($model->registration_ip, "http://ipinfo.io/" . $model->registration_ip, ["target"=>"_blank"]);
-							},
-						'format'=>'raw',
-						'visible'=>User::hasPermission('viewRegistrationIp'),
-					],
-					[
-						'value'=>function(User $model){
-								return GhostHtml::a(
-									UserManagementModule::t('back', 'Roles and permissions'),
-									['/user-management/user-permission/set', 'id'=>$model->id],
-									['class'=>'btn btn-sm btn-primary', 'data-pjax'=>0]);
-							},
-						'format'=>'raw',
-						'visible'=>User::canRoute('/user-management/user-permission/set'),
-						'options'=>[
-							'width'=>'10px',
-						],
-					],
+					// [
+					// 	'attribute'=>'gridRoleSearch',
+					// 	'filter'=>ArrayHelper::map(Role::getAvailableRoles(Yii::$app->user->isSuperAdmin),'name', 'description'),
+					// 	'value'=>function(User $model){
+					// 			return implode(', ', ArrayHelper::map($model->roles, 'name', 'description'));
+					// 		},
+					// 	'format'=>'raw',
+					// 	'visible'=>User::hasPermission('viewUserRoles'),
+					// ],
+					// [
+					// 	'attribute'=>'registration_ip',
+					// 	'value'=>function(User $model){
+					// 			return Html::a($model->registration_ip, "http://ipinfo.io/" . $model->registration_ip, ["target"=>"_blank"]);
+					// 		},
+					// 	'format'=>'raw',
+					// 	'visible'=>User::hasPermission('viewRegistrationIp'),
+					// ],
+					// [
+					// 	'value'=>function(User $model){
+					// 			return GhostHtml::a(
+					// 				UserManagementModule::t('back', 'Roles and permissions'),
+					// 				['/user-management/user-permission/set', 'id'=>$model->id],
+					// 				['class'=>'btn btn-sm btn-primary', 'data-pjax'=>0]);
+					// 		},
+					// 	'format'=>'raw',
+					// 	'visible'=>User::canRoute('/user-management/user-permission/set'),
+					// 	'options'=>[
+					// 		'width'=>'10px',
+					// 	],
+					// ],
 					[
 						'value'=>function(User $model){
 								return GhostHtml::a(
