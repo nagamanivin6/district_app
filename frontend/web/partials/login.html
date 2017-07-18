@@ -1,17 +1,17 @@
 <div class="site-signup" ng-controller="LoginController as login">
     <h1>Login</h1>
 
-    <p>Please fill out the following fields to login:</p>
+    <p>Please Enter User Name and Password:</p>
     <div class="row">
         <div class="col-lg-5">
          <form id="login-form" name="LoginForm" ng-submit="signin()" method="post" role="form">
                 <div class="form-group field-username required " ng-class="{ 'has-error': LoginForm.username.$dirty && LoginForm.username.$invalid }">
-                    <label class="control-label" for="username">Username</label>
+                    <label class="control-label" for="username" title="Please enter name">Username</label>
                     <input type="text" id="username" name="username" class="form-control" ng-model="login.userModel.username" required autofocus="" aria-required="true" aria-invalid="true">
                     <span ng-show="LoginForm.username.$dirty && LoginForm.username.$invalid" class="help-block">User Name is required</span>
                 </div>
                 <div class="form-group field-loginform-password required" ng-class="{ 'has-error': LoginForm.password.$dirty && LoginForm.password.$invalid }">
-                    <label class="control-label" for="password">Password</label>
+                    <label class="control-label" for="password" title="Enter Password">Password</label>
                         <input type="password" id="password" name="password" class="form-control" required ng-model="login.userModel.password" aria-required="true">
                         <span ng-show="password" class="help-block">User Name is required</span>
                 </div>
@@ -19,7 +19,7 @@
                     <button type="submit" class="btn btn-primary">Login</button>                
                 </div>
                 <div style="color:#999;margin:1em 0">
-                    New citizen please <a href="#/signup">Click here </a> to register.
+                    To Register:  <a href="#/signup">Call new Registration Form </a>
                 </div>
                 <div style="color:#999;margin:1em 0">
                     If you forgot your password you can <a href="#/reset-password">reset it</a>.
