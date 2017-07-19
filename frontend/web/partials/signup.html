@@ -10,6 +10,13 @@
                         <span ng-show="error['user_name'] && submitted" class="help-block">{{error['user_name']}}</span>
                     </div>
                 </div>
+                <div class="form-group" ng-class="{ 'has-error': error['user_father'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_father">Father Name:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_father" name="user_father" ng-model="signup.user.user_father" required >
+                          <span ng-show="error['user_father'] && submitted" class="help-block ">{{error['user_father']}}</span>
+                    </div>
+                </div>
                 <div class="form-group" ng-class="{ 'has-error': error['user_mother'] && submitted }">
                     <label class="control-label col-sm-3" for="user_mother">Mother Name:</label>
                     <div class="col-sm-9">
@@ -17,11 +24,19 @@
                          <span ng-show="error['user_mother'] && submitted" class="help-block">{{error['user_mother']}}</span>
                     </div>
                 </div>
-                <div class="form-group" ng-class="{ 'has-error': error['user_father'] && submitted}">
-                    <label class="control-label col-sm-3" for="user_father">Father Name:</label>
+                <div class="form-group" ng-class="{ 'has-error': error['user_gender'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_gender">Gender:</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control input-sm" id="user_father" name="user_father" ng-model="signup.user.user_father" required >
-                          <span ng-show="error['user_father'] && submitted" class="help-block ">{{error['user_father']}}</span>
+                        <input  id="user_gender" name="user_gender" type="radio" ng-model="signup.user.user_gender" value=1>Male
+                        <input id="user_gender" name="user_gender" type="radio" ng-model="signup.user.user_gender" value=0>Female
+                        <span ng-show="error['user_gender'] && submitted" class="help-block ">{{error['user_gender']}}</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error':  error['user_dob'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_dob">Date of Birth:</label>
+                    <div class="col-sm-9">
+                        <input  id="user_dob" type="date" class="form-control input-sm" name="user_dob" ng-model="signup.user.user_dob"  required>
+                         <span ng-show="error['user_dob'] && submitted" class="help-block ">{{error['user_dob']}}</span>
                     </div>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error': error['user_email'] && submitted}">
@@ -46,21 +61,7 @@
                          <span ng-show="error['user_uid'] && submitted" class="help-block ">{{error['user_uid']}}</span>
                     </div>
                 </div>
-                <div class="form-group" ng-class="{ 'has-error': error['user_gender'] && submitted}">
-                    <label class="control-label col-sm-3" for="user_gender">Gender:</label>
-                    <div class="col-sm-9">
-                        <input  id="user_gender" name="user_gender" type="radio" ng-model="signup.user.user_gender" value=1>Male
-                        <input id="user_gender" name="user_gender" type="radio" ng-model="signup.user.user_gender" value=0>Female
-                        <span ng-show="error['user_gender'] && submitted" class="help-block ">{{error['user_gender']}}</span>
-                    </div>
-                </div>
-                <div class="form-group" ng-class="{ 'has-error':  error['user_dob'] && submitted}">
-                    <label class="control-label col-sm-3" for="user_dob">Date of Birth:</label>
-                    <div class="col-sm-9">
-                        <input  id="user_dob" type="date" class="form-control input-sm" name="user_dob" ng-model="signup.user.user_dob"  required>
-                         <span ng-show="error['user_dob'] && submitted" class="help-block ">{{error['user_dob']}}</span>
-                    </div>
-                </div>
+                
             </div>
             <div class="col-lg-6">
                 <div class="form-group" ng-class="{ 'has-error': error['user_hno'] && submitted}">
