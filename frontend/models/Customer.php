@@ -56,9 +56,9 @@ class Customer extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['user_uid', 'user_name', 'user_father', 'user_gender', 'user_dob', 'user_email', 'user_phone', 'user_hno', 'user_area', 'user_village', 'user_mandal', 'user_dist', 'user_pin', 'user_state', 'user_status'], 'required'],
-            [['user_uid', 'user_gender', 'user_dist', 'user_pin', 'user_status','user_mandal','user_village'], 'integer'],
-            [['user_dob','created_at','updated_at'], 'safe'],
+            [['user_uid', 'user_name', 'user_father', 'user_gender', 'user_dob', 'user_email', 'user_phone', 'user_hno', 'user_area', 'user_village', 'user_mandal', 'user_dist', 'user_pin', 'user_state', 'user_status','user_religion'], 'required'],
+            [['user_uid', 'user_gender', 'user_dist', 'user_pin', 'user_status','user_mandal','user_village','user_religion'], 'integer'],
+            [['user_dob','created_at','updated_at','user_religion'], 'safe'],
             [['user_name'],'unique'],
             [['user_uid'],'integer'],
             [['user_password'],'required','on' => ['changepassword','emailVerified','login']],

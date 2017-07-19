@@ -1,4 +1,4 @@
-<div class="site-signup" ng-controller="SignupController as signup">
+<div class="site-signup">
     <h4 style="text-align:center" >New Citizen registration form</h4>
     <div class="row">
          <form name="signupForm" id="signup-form" class="form-horizontal"  ng-submit="register()" method="post" role="form">
@@ -39,6 +39,27 @@
                          <span ng-show="error['user_dob'] && submitted" class="help-block ">{{error['user_dob']}}</span>
                     </div>
                 </div>
+                <div class="form-group" ng-class="{ 'has-error': error['user_caste'] && submitted }">
+                    <label class="control-label col-sm-3" for="user_caste"> Caste:</label>
+                    <div class="col-sm-9">
+                        <select type="text" class="form-control input-sm" id="user_caste" name="user_caste" ng-model="signup.user.user_caste" ng-options="key as value for (key , value) in castes" required ></select>
+                        <span ng-show="error['user_caste'] && submitted" class="help-block">{{error['user_caste']}}</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': error['user_caste_group'] && submitted }">
+                    <label class="control-label col-sm-3" for="user_caste_group"> Caste Group:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_caste_group" name="user_caste_group" ng-model="signup.user.user_caste_group" required >
+                        <span ng-show="error['user_caste_group'] && submitted" class="help-block">{{error['user_caste_group']}}</span>
+                    </div>
+                </div>
+                 <div class="form-group" ng-class="{ 'has-error': error['user_religion'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_religion">Religion:</label>
+                    <div class="col-sm-9">
+                        <select  id="user_religion" class="form-control input-sm" name="user_religion" ng-model="signup.user.user_religion" ng-options="key as value for (key , value) in religions" required></select>
+                        <span ng-show="error['user_religion'] && submitted" class="help-block ">{{error['user_religion']}}</span>
+                    </div>
+                </div>
                 <div class="form-group" ng-class="{ 'has-error': error['user_email'] && submitted}">
                     <label class="control-label col-sm-3" for="user_email">Email:</label>
                     <div class="col-sm-9">
@@ -53,17 +74,17 @@
                         <span ng-show="serror['user_phone'] && submitted" class="help-block ">{{error['user_phone']}}</span>
                     </div> 
                 </div>
-               <div class="form-group" ng-class="{ 'has-error': error['user_uid'] && submitted}">
-                    <label class="control-label col-sm-3" for="user_uid">Aadhar Id:</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control input-sm" id="user_uid" name="user_uid" ng-model="signup.user.user_uid" required >
-                         <!--<span ng-show="signupForm.user_uid.$dirty && signupForm.user_uid.$error.required && signupForm.user_uid.$invalid" class="help-block ">Aadhar is required</span>-->
-                         <span ng-show="error['user_uid'] && submitted" class="help-block ">{{error['user_uid']}}</span>
-                    </div>
-                </div>
+               
                 
             </div>
             <div class="col-lg-6">
+                <div class="form-group" ng-class="{ 'has-error': error['user_uid'] && submitted}">
+                    <label class="control-label col-sm-3" for="user_uid">Aadhar Id:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="user_uid" name="user_uid" ng-model="signup.user.user_uid" required >
+                         <span ng-show="error['user_uid'] && submitted" class="help-block ">{{error['user_uid']}}</span>
+                    </div>
+                </div>
                 <div class="form-group" ng-class="{ 'has-error': error['user_hno'] && submitted}">
                     <label class="control-label col-sm-3" for="user_hno"> Hno:</label>
                     <div class="col-sm-9">
@@ -79,24 +100,24 @@
                         <span ng-show="error['user_area'] && submitted" class="help-block ">{{error['user_area']}}</span>
                     </div>
                 </div>
-                <div class="form-group" ng-class="{ 'has-error': error['user_dist'] && submitted}">
+                <!--<div class="form-group" ng-class="{ 'has-error': error['user_dist'] && submitted}">
                     <label class="control-label col-sm-3" for="user_dist">District:</label>
                     <div class="col-sm-9">
                         <select  id="user_dist" class="form-control input-sm" name="user_dist" ng-model="signup.user.user_dist" ng-options="key as value for (key , value) in districts" required></select>
                         <span ng-show="error['user_dist'] && submitted" class="help-block ">{{error['user_dist']}}</span>
                     </div>
-                </div>
+                </div>-->
                 <div class="form-group" ng-class="{ 'has-error': error['user_mandal'] && submitted }">
                     <label class="control-label col-sm-3" for="user_mandal"> Mandal:</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control input-sm" id="user_mandal" name="user_mandal" ng-model="signup.user.user_mandal" required >
+                        <select type="text" class="form-control input-sm" id="user_mandal" name="user_mandal" ng-model="signup.user.user_mandal" ng-options="key as value for (key , value) in mandals" required ></select>
                         <span ng-show="error['user_mandal'] && submitted" class="help-block ">{{error['user_mandal']}}</span>
                     </div>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error': error['user_village'] && submitted}">
                     <label class="control-label col-sm-3" for="user_village"> Village:</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control input-sm" id="user_village" name="user_village" ng-model="signup.user.user_village" required >
+                        <select type="text" class="form-control input-sm" id="user_village" name="user_village" ng-model="signup.user.user_village" ng-options="key as value for (key , value) in villages" required ></select>
                         <span ng-show=" error['user_village'] && submitted" class="help-block ">{{error['user_village']}}</span>
                     </div>
                 </div>
