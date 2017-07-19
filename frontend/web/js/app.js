@@ -33,10 +33,12 @@ app.config(['$routeProvider','$httpProvider',
             when('/login', {
                 templateUrl: 'partials/login.html',
                 controller : 'LoginController',
+                controllerAs: 'login'
             }).
             when('/signup', {
                 templateUrl: 'partials/signup.html',
                 controller : 'SignupController',
+                controllerAs : 'signup'
             }).
             when('/dashboard', {
                 templateUrl: 'partials/dashboard.html',
@@ -122,11 +124,15 @@ app.controller('ComplaintController',['$scope','$http','$location','MandalListSe
     
 }])
 
-app.controller('SignupController',['$scope','$http','$log','$location','DistrictListService',function($scope,$http,$log,$location,DistrictListService){
+app.controller('SignupController',['$scope','$http','$log','$location','DistrictListService','ReligionListService','CastListService',function($scope,$http,$log,$location,DistrictListService,ReligionListService,CastListService){
     var signup = this;
-     DistrictListService.districtList().then(function(data){
-         $scope.districts =data;
-     });
+    //$scope.religions =  ReligionListService.getReligionList();
+    ReligionListService.getReligionList().then(function(data){
+         $scope.religions =data;
+    });
+    CastListService.getCasteList().then(function(data){
+         $scope.castes =data;
+    });
      $scope.register = function(){
         $scope.submitted = true;
         $scope.error = {};
@@ -181,94 +187,6 @@ app.controller('LoginController',['$scope','$http','$log','$window','$location',
      };
 }]);
 
-app.service('DistrictListService', function ($http, $log) {
-    this.districtList = function () {
-        return $http({
-            method: 'GET',
-            url: 'index.php?r=api/districts',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
-        .then(function(response) {
-            return response.data;
-        })
-        .catch(function(error) {
-            $log.error('ERROR:', error);
-            throw error;
-        });
-    }
-});
-app.service('UserService', function ($http, $log) {
-    this.userData;
-    this.userInfo = function () {
-        if(this.userData) {
-            return this.userData;
-        }
-        else {
-            return $http({
-                method: 'POST',
-                url: 'index.php?r=api/user-details',
-            })
-            .then(function(response) {
-                this.userData = response.data
-                return this.userData;
-            })
-            .catch(function(error) {
-                console.log(error)
-                $log.error('ERROR:', error);
-                throw error;
-            });
-        }
-    }
-});
-app.service('MandalListService', function ($http, $log) {
-    this.mandalList = function () {
-        return $http({
-            method: 'GET',
-            url: 'index.php?r=api/mandals',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
-        .then(function(response) {
-            return response.data;
-        })
-        .catch(function(error) {
-            $log.error('ERROR:', error);
-            throw error;
-        });
-    }
-});
-app.service('VillageListService', function ($http, $log) {
-    this.villageList = function (mandal) {
-        return $http({
-            method: 'GET',
-            url: 'index.php?r=api/villages',
-            params : {"mandal":mandal},
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
-        .then(function(response) {
-            return response.data;
-        })
-        .catch(function(error) {
-            $log.error('ERROR:', error);
-            throw error;
-        });
-    }
-});
-app.service('IssueListService', function ($http, $log) {
-    this.issuesList = function (mandal) {
-        return $http({
-            method: 'GET',
-            url: 'index.php?r=api/issues-list',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
-        .then(function(response) {
-            return response.data;
-        })
-        .catch(function(error) {
-            $log.error('ERROR:', error);
-            throw error;
-        });
-    }
-});
 app.run(['$rootScope', '$location','$window', function ($rootScope, $location,$window) {
     $rootScope.$on('$routeChangeStart', function (event,next,current) {
         

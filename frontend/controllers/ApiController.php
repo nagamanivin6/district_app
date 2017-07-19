@@ -17,6 +17,10 @@ use frontend\models\Customer;
 use frontend\models\LoginForm;
 use backend\models\Issue;
 use backend\models\Complaints;
+use backend\models\Religion;
+use backend\models\Collector;
+use backend\models\Caste;
+use backend\models\CasteGroup;
 use yii\web\Response;
 /**
  * Site controller
@@ -71,10 +75,32 @@ class ApiController extends Controller
         $response->data = $districts;
         return $response;
     }
+    public function actionCastes(){
+        $response = Yii::$app->response;
+        $response->format = Response::FORMAT_JSON;
+        $districts = ArrayHelper::map(Caste::find()->where(['caste_status'=>1])->all(), 'caste_id', 'caste_name');
+        $response->data = $districts;
+        return $response;
+    }
+    public function actionCasteGroups($caste_id){
+        $response = Yii::$app->response;
+        $response->format = Response::FORMAT_JSON;
+        $districts = ArrayHelper::map(Religion::find()->where(['caste_group_status'=>1,'caste_id'=>$caste_id])->all(), 'caste_group_id', 'caste_group_name');
+        $response->data = $districts;
+        return $response;
+    }
+    public function actionReligions(){
+        $response = Yii::$app->response;
+        $response->format = Response::FORMAT_JSON;
+        $districts = ArrayHelper::map(Religion::find()->where(['religion_status'=>1])->all(), 'religion_id', 'religion_name');
+        $response->data = $districts;
+        return $response;
+    }
     public function actionMandals(){
         $response = Yii::$app->response;
         $response->format = Response::FORMAT_JSON;
-        $mandals = ArrayHelper::map(Mandal::find()->where(['dist_id'=>7])->all(), 'mandal_id', 'mandal_name');
+        $collectorObj = Collector::find()->where(['id'=>1])->findOne();
+        $mandals = ArrayHelper::map(Mandal::find()->where(['dist_id'=>$collectorObj->dist_id])->all(), 'mandal_id', 'mandal_name');
         $response->data = $mandals;
         return $response;
     }
@@ -143,6 +169,9 @@ class ApiController extends Controller
         $customer->user_mandal = $post_data->user_mandal;
         $customer->user_pin = $post_data->user_pin;
         $customer->user_password = $post_data->user_password;
+        $customer->user_religion = $post_data->user_religion;
+        $customer->user_caste = $post_data->user_caste;
+        $customer->user_caste_group = $post_data->user_caste_group;
         $customer->user_state = 'Telangana';
         $customer->user_status =1;
         if ($customer->validate()) {
