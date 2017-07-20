@@ -85,7 +85,7 @@ class ApiController extends Controller
     public function actionCasteGroups($caste_id){
         $response = Yii::$app->response;
         $response->format = Response::FORMAT_JSON;
-        $districts = ArrayHelper::map(Religion::find()->where(['caste_group_status'=>1,'caste_id'=>$caste_id])->all(), 'caste_group_id', 'caste_group_name');
+        $districts = ArrayHelper::map(CasteGroup::find()->where(['caste_group_status'=>1,'caste_id'=>$caste_id])->all(), 'caste_group_id', 'caste_group_name');
         $response->data = $districts;
         return $response;
     }
@@ -99,7 +99,7 @@ class ApiController extends Controller
     public function actionMandals(){
         $response = Yii::$app->response;
         $response->format = Response::FORMAT_JSON;
-        $collectorObj = Collector::find()->where(['id'=>1])->findOne();
+        $collectorObj = Collector::find()->where(['id'=>1])->one();
         $mandals = ArrayHelper::map(Mandal::find()->where(['dist_id'=>$collectorObj->dist_id])->all(), 'mandal_id', 'mandal_name');
         $response->data = $mandals;
         return $response;
@@ -153,6 +153,7 @@ class ApiController extends Controller
         $response->format = \yii\web\Response::FORMAT_JSON;
         $v =file_get_contents('php://input');
         $post_data = json_decode($v);
+        $collectorObj = Collector::find()->where(['id'=>1])->one();
         $customer = new Customer;
         $customer->user_name = $post_data->user_name;
         $customer->user_mother = $post_data->user_mother;
@@ -164,14 +165,14 @@ class ApiController extends Controller
         $customer->user_phone = $post_data->user_phone;
         $customer->user_hno = $post_data->user_hno;
         $customer->user_area = $post_data->user_area;
-        $customer->user_dist = (isset($post_data->user_dist)) ? $post_data->user_dist : '';
-        $customer->user_village = $post_data->user_village;
-        $customer->user_mandal = $post_data->user_mandal;
+        $customer->user_dist = ($collectorObj->dist_id) ? $collectorObj->dist_id : '';
+        $customer->user_village = (isset($post_data->user_village)) ?$post_data->user_village : '';
+        $customer->user_mandal = (isset($post_data->user_mandal)) ?$post_data->user_mandal : '';
         $customer->user_pin = $post_data->user_pin;
         $customer->user_password = $post_data->user_password;
-        $customer->user_religion = $post_data->user_religion;
-        $customer->user_caste = $post_data->user_caste;
-        $customer->user_caste_group = $post_data->user_caste_group;
+        $customer->user_religion =isset($post_data->user_religion) ?  $post_data->user_religion : '';
+        $customer->user_caste =  isset($post_data->user_caste) ?  $post_data->user_caste : '';
+        $customer->user_caste_group = isset($post_data->user_caste_group) ? $post_data->user_caste_group : '';
         $customer->user_state = 'Telangana';
         $customer->user_status =1;
         if ($customer->validate()) {
