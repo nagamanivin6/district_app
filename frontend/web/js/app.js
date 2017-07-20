@@ -57,6 +57,7 @@ app.config(['$routeProvider','$httpProvider',
             when('/complaint', {
                 templateUrl: 'partials/complaint.html',
                 controller : 'ComplaintController',
+                controllerAs : 'complaint',
                 resolve : {
                     authorize : ['$window','$location',function($window,$location){
                         if(Boolean($window.sessionStorage.access_token)){
@@ -91,19 +92,29 @@ app.controller('DashboardController',['$scope','$http','$rootScope','UserService
         $rootScope.loggedInUser = data;
     })
 }]);
-app.controller('ComplaintController',['$scope','$http','$location','MandalListService','VillageListService','IssueListService',function($scope,$http,$location,MandalListService,VillageListService,IssueListService){
+app.controller('ComplaintController',['$scope','$http','$location','$rootScope','MandalListService','VillageListService','IssueListService','UserService',function($scope,$http,$location,$rootScope,MandalListService,VillageListService,IssueListService,UserService){
     var complaint = this;
-    MandalListService.mandalList().then(function(data){
-         $scope.mandals =data;
-    });
-    IssueListService.issuesList().then(function(data){
-        $scope.issues =data;
-    });
-    $scope.getVillages = function(){
-        VillageListService.villageList(complaint.complaintInfo.mandal).then(function(data){
+   
+     UserService.userInfo().then(function(data){
+        $rootScope.loggedInUser = data;
+        complaint.complaintInfo = {};
+        complaint.complaintInfo.mandal = data.user_mandal;
+        complaint.complaintInfo.village = data.user_village;
+         VillageListService.getVillageList(complaint.complaintInfo.mandal).then(function(data){
              $scope.villages =data;
         });
-    }
+    });
+    MandalListService.getMandalList().then(function(data){
+         $scope.mandals =data;
+    });
+    IssueListService.getIssuesList().then(function(data){
+        $scope.issues =data;
+    });
+    // $scope.getVillages = function(){
+    //     VillageListService.getVillageList(complaint.complaintInfo.mandal).then(function(data){
+    //          $scope.villages =data;
+    //     });
+    // }
     $scope.raiseComplaint = function(){
         return $http({
             method: 'POST',
@@ -124,15 +135,27 @@ app.controller('ComplaintController',['$scope','$http','$location','MandalListSe
     
 }])
 
-app.controller('SignupController',['$scope','$http','$log','$location','DistrictListService','ReligionListService','CastListService',function($scope,$http,$log,$location,DistrictListService,ReligionListService,CastListService){
+app.controller('SignupController',['$scope','$http','$log','$location','ReligionListService','CastListService','CasteGroupListService','MandalListService','VillageListService',function($scope,$http,$log,$location,ReligionListService,CastListService,CasteGroupListService,MandalListService,VillageListService){
     var signup = this;
-    //$scope.religions =  ReligionListService.getReligionList();
     ReligionListService.getReligionList().then(function(data){
          $scope.religions =data;
     });
     CastListService.getCasteList().then(function(data){
          $scope.castes =data;
     });
+    MandalListService.getMandalList().then(function(data){
+         $scope.mandals =data;
+    });
+    $scope.getVillages = function(){
+        VillageListService.getVillageList(signup.user.user_mandal).then(function(data){
+             $scope.villages =data;
+        });
+    }
+    $scope.getCasteGroup = function(){
+        CasteGroupListService.getCasteGroupList(signup.user.user_caste).then(function(data){
+            $scope.casteGroups =data;
+        });
+    }
      $scope.register = function(){
         $scope.submitted = true;
         $scope.error = {};

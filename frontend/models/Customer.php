@@ -57,10 +57,11 @@ class Customer extends ActiveRecord implements IdentityInterface
     {
         return [
             [['user_uid', 'user_name', 'user_father', 'user_gender', 'user_dob', 'user_email', 'user_phone', 'user_hno', 'user_area', 'user_village', 'user_mandal', 'user_dist', 'user_pin', 'user_state', 'user_status','user_religion'], 'required'],
-            [['user_uid', 'user_gender', 'user_dist', 'user_pin', 'user_status','user_mandal','user_village','user_religion'], 'integer'],
+            [['user_uid','user_phone','user_gender', 'user_dist', 'user_pin', 'user_status','user_mandal','user_village','user_religion'], 'integer'],
             [['user_dob','created_at','updated_at','user_religion'], 'safe'],
             [['user_name'],'unique'],
-            [['user_uid'],'integer'],
+            ['user_uid','is12NumbersOnly'],
+            ['user_phone','is10NumbersOnly'],
             [['user_password'],'required','on' => ['changepassword','emailVerified','login']],
             [['user_name', 'user_password', 'user_father','user_mother', 'user_email', 'user_phone', 'user_hno', 'user_area', 'user_state'], 'string', 'max' => 255],
         ];
@@ -93,6 +94,18 @@ class Customer extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function is12NumbersOnly($attribute)
+    {
+        if (!preg_match('/^[0-9]{12}$/', $this->$attribute)) {
+            $this->addError($attribute, 'must contain exactly 12 digits.');
+        }
+    }
+    public function is10NumbersOnly($attribute)
+    {
+        if (!preg_match('/^[0-9]{10}$/', $this->$attribute)) {
+            $this->addError($attribute, 'must contain exactly 10 digits.');
+        }
+    }
     /**
      * @inheritdoc
      * @return CustomerQuery the active query used by this AR class.
