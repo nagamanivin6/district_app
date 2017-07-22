@@ -2,6 +2,8 @@
 
 namespace backend\models;
 use frontend\models\Customer;
+use backend\models\Status;
+use backend\models\Issue;
 use Yii;
 
 /**
@@ -32,7 +34,7 @@ class Complaints extends \yii\db\ActiveRecord
         return [
             [['comp_desc', 'issue_id', 'user_regid', 'created_date', 'status'], 'required'],
             [['issue_id', 'user_regid', 'status','mandal_id','village_id'], 'integer'],
-            [['created_date'], 'safe'],
+            [['created_date','status'], 'safe'],
             [['comp_desc'], 'string', 'max' => 255],
         ];
     }
@@ -58,6 +60,13 @@ class Complaints extends \yii\db\ActiveRecord
 
     public function getCustomerName() {
             return $this->customer->user_name;
+    }
+    public function getStatusInfo()
+    {
+            return $this->hasOne(Status::className(), ['status_id' => 'status']);
+    }
+    public function getIssueInfo(){
+                return $this->hasOne(Issue::className(), ['issue_id' => 'issue_id']);
     }
     /**
      * @inheritdoc
