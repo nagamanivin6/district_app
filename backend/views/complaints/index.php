@@ -15,25 +15,28 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
+    <!--<p>
         <?= Html::a(Yii::t('app', 'Create Complaints'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    </p>-->
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            // 'comp_id',
             'comp_desc',
-            'issue_id',
-            //'user_regid',
+            [
+            'attribute' => 'issue_id',
+            'value' => 'issueInfo.issue_desc'
+            ],
             [
             'attribute' => 'user_regid',
             'value' => 'customer.user_name'
             ],
+             [
+            'attribute' => 'status',
+            'value' => 'statusInfo.status_name'
+            ],
             'created_date',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
