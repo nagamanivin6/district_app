@@ -5,15 +5,15 @@
     <div class="row">
         <div class="col-lg-5">
          <form id="login-form" name="LoginForm" ng-submit="signin()" method="post" role="form">
-                <div class="form-group field-username required " ng-class="{ 'has-error': LoginForm.username.$dirty && LoginForm.username.$invalid }">
+                <div class="form-group field-username required " ng-class="{ 'has-error': error['username'] && submitted }">
                     <label class="control-label" for="username" title="Please enter name">Username</label>
                     <input type="text" id="username" name="username" class="form-control" ng-model="login.userModel.username" required autofocus="" aria-required="true" aria-invalid="true">
-                    <span ng-show="LoginForm.username.$dirty && LoginForm.username.$invalid" class="help-block">User Name is required</span>
+                    <span ng-show="error['username'] && submitted" class="help-block">User Name is required</span>
                 </div>
-                <div class="form-group field-loginform-password required" ng-class="{ 'has-error': LoginForm.password.$dirty && LoginForm.password.$invalid }">
-                    <label class="control-label" for="password" title="Enter Password">Password</label>
+                <div class="form-group field-loginform-password required" ng-class="{ 'has-error': error['password'] && submitted }">
+                        <label class="control-label" for="password" title="Enter Password">Password</label>
                         <input type="password" id="password" name="password" class="form-control" required ng-model="login.userModel.password" aria-required="true">
-                        <span ng-show="password" class="help-block">User Name is required</span>
+                        <span ng-show="error['password'] && submitted" class="help-block">{{error['password']}}</span>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Login</button>                

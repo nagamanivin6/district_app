@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\ArrayHelper;
+use backend\models\Status;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ComplaintsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -34,7 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
              [
             'attribute' => 'status',
-            'value' => 'statusInfo.status_name'
+            'value' => 'statusInfo.status_name',
+            'filter'=>ArrayHelper::map(Status::find()->asArray()->all(), 'status_id', 'status_name'),
             ],
             'created_date',
             ['class' => 'yii\grid\ActionColumn'],

@@ -88,21 +88,17 @@ app.controller('MainController',['$scope','$location','$window','$log','UserServ
 }]);
 
 app.controller('DashboardController',['$scope','$http','$rootScope','UserService',function($scope,$http,$rootScope,UserService){
-    UserService.userInfo().then(function(data){
-        $rootScope.loggedInUser = data;
-    })
+    // UserService.userInfo().then(function(data){
+    //     $rootScope.loggedInUser = data;
+    // })
 }]);
 app.controller('ComplaintController',['$scope','$http','$location','$rootScope','MandalListService','VillageListService','IssueListService','UserService',function($scope,$http,$location,$rootScope,MandalListService,VillageListService,IssueListService,UserService){
     var complaint = this;
-   
-     UserService.userInfo().then(function(data){
-        $rootScope.loggedInUser = data;
-        complaint.complaintInfo = {};
-        complaint.complaintInfo.mandal = data.user_mandal;
-        complaint.complaintInfo.village = data.user_village;
-         VillageListService.getVillageList(complaint.complaintInfo.mandal).then(function(data){
-             $scope.villages =data;
-        });
+    complaint.complaintInfo = {};
+    complaint.complaintInfo.mandal = $rootScope.loggedInUser.user_mandal;
+    complaint.complaintInfo.village = $rootScope.loggedInUser.user_village;
+    VillageListService.getVillageList(complaint.complaintInfo.mandal).then(function(data){
+            $scope.villages =data;
     });
     MandalListService.getMandalList().then(function(data){
          $scope.mandals =data;
@@ -110,11 +106,6 @@ app.controller('ComplaintController',['$scope','$http','$location','$rootScope',
     IssueListService.getIssuesList().then(function(data){
         $scope.issues =data;
     });
-    // $scope.getVillages = function(){
-    //     VillageListService.getVillageList(complaint.complaintInfo.mandal).then(function(data){
-    //          $scope.villages =data;
-    //     });
-    // }
     $scope.raiseComplaint = function(){
         return $http({
             method: 'POST',
@@ -132,9 +123,7 @@ app.controller('ComplaintController',['$scope','$http','$location','$rootScope',
             throw error;
         });
     }
-    
 }])
-
 app.controller('SignupController',['$scope','$http','$log','$location','ReligionListService','CastListService','CasteGroupListService','MandalListService','VillageListService',function($scope,$http,$log,$location,ReligionListService,CastListService,CasteGroupListService,MandalListService,VillageListService){
     var signup = this;
     ReligionListService.getReligionList().then(function(data){
@@ -185,6 +174,8 @@ app.controller('SignupController',['$scope','$http','$log','$location','Religion
 app.controller('LoginController',['$scope','$http','$log','$window','$location',function($scope,$http,$log,$window,$location){
     var login = this;
     $scope.signin = function(){
+        $scope.submitted = true;
+        $scope.error = {};
         return $http({
             method: 'POST',
             url: 'index.php?r=api/login',
@@ -197,9 +188,9 @@ app.controller('LoginController',['$scope','$http','$log','$window','$location',
             }
             else {
                 angular.forEach(response.data.errors,function(value,key){
-                    $scope.LoginForm[key].$error.serverError = true;
-                    $scope.LoginForm[key].$error.serverMessage = value[0];
+                    $scope.error[key] = value[0];
                 });
+               // console.log($scope.error['password'] && $scope.submitted);
             }
         })
         .catch(function(error) {
@@ -210,9 +201,13 @@ app.controller('LoginController',['$scope','$http','$log','$window','$location',
      };
 }]);
 
-app.run(['$rootScope', '$location','$window', function ($rootScope, $location,$window) {
+app.run(['$rootScope', '$location','$window','UserService', function ($rootScope, $location,$window,UserService) {
     $rootScope.$on('$routeChangeStart', function (event,next,current) {
-        
-        
+        if(Boolean($window.sessionStorage.access_token)) {
+            UserService.userInfo().then(function(data){
+                $rootScope.loggedInUser = data;
+            });
+        }
     });
+    
 }]);

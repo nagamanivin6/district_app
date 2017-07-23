@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Complaints;
 use backend\models\ComplaintsSearch;
+use backend\models\ComplaintsTrans;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -97,6 +98,12 @@ class ComplaintsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $complaintsTrans = new ComplaintsTrans();
+            $complaintsTrans->comp_id = $model->comp_id;
+            $complaintsTrans->comp_status = $model->status;
+            $complaintsTrans->comp_empregid = Yii::$app->user->identity->id;
+            $complaintsTrans->comp_date =new \yii\db\Expression('NOW()');
+            $complaintsTrans->save();
             return $this->redirect(['view', 'id' => $model->comp_id]);
         } else {
             return $this->render('update', [
