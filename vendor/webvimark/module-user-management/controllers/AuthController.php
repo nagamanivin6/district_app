@@ -15,13 +15,17 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
+use backend\models\CasteGroup;
+use backend\models\District;
+use backend\models\Mandal;
+use backend\models\Village;
 
 class AuthController extends BaseController
 {
 	/**
 	 * @var array
 	 */
-	public $freeAccessActions = ['login', 'logout', 'confirm-registration-email'];
+	public $freeAccessActions = ['login', 'logout', 'confirm-registration-email','registration','password-recovery','get-sub-caste','districts','mandals','villages'];
 
 	/**
 	 * @return array
@@ -121,23 +125,26 @@ class AuthController extends BaseController
 		}
 
 		$model = new $this->module->registrationFormClass;
-
+		
 
 		if ( Yii::$app->request->isAjax AND $model->load(Yii::$app->request->post()) )
 		{
-
+			
 			Yii::$app->response->format = Response::FORMAT_JSON;
 
 			// Ajax validation breaks captcha. See https://github.com/yiisoft/yii2/issues/6115
 			// Thanks to TomskDiver
+			
 			$validateAttributes = $model->attributes;
+			
 			unset($validateAttributes['captcha']);
 
 			return ActiveForm::validate($model, $validateAttributes);
 		}
-
+		
 		if ( $model->load(Yii::$app->request->post()) AND $model->validate() )
 		{
+			
 			// Trigger event "before registration" and checks if it's valid
 			if ( $this->triggerModuleEvent(UserAuthEvent::BEFORE_REGISTRATION, ['model'=>$model]) )
 			{
@@ -380,5 +387,38 @@ class AuthController extends BaseController
 		$this->module->trigger($eventName, $event);
 
 		return $event->isValid;
+	}
+
+	public function actionGetSubCaste(){
+		$caste_id = $_POST['id'];
+		$subcaste = CasteGroup::find()->where(['caste_id'=>$caste_id])->all();
+		echo "<option value=> Select Sub Caste</option>";
+		foreach($subcaste as $caste){
+                echo "<option value='".$caste->caste_group_id."'>".$caste->caste_group_name."</option>";
+        }
+	}
+	public function actionDistricts(){
+		$state_id = $_POST['id'];
+		$districts = District::find()->where(['state_id'=>$state_id])->all();
+		echo "<option value=> Select District</option>";
+		foreach($districts as $district){
+                echo "<option value='".$district->dist_id."'>".$district->dist_name."</option>";
+        }
+	}
+	public function actionMandals(){
+		$dist_id = $_POST['id'];
+		$mandals = Mandal::find()->where(['dist_id'=>$dist_id])->all();
+		echo "<option value=> Select Mandal</option>";
+		foreach($mandals as $mandal){
+                echo "<option value='".$mandal->mandal_id."'>".$mandal->mandal_name."</option>";
+        }
+	}
+	public function actionVillages(){
+		$mandal_id = $_POST['id'];
+		$villages = Village::find()->where(['mandal_id'=>$mandal_id])->all();
+		echo "<option value=> Select Village</option>";
+		foreach($villages as $village){
+            echo "<option value='".$village->village_id."'>".$village->village_name."</option>";
+        }
 	}
 }

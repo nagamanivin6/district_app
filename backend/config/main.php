@@ -14,6 +14,7 @@ return [
     'modules' => [
         'user-management' => [
 		'class' => 'webvimark\modules\UserManagement\UserManagementModule',
+        'enableRegistration'=>true,
 
 		// 'enableRegistration' => true,
 
@@ -32,7 +33,7 @@ return [
 		// Here you can set your handler to change layout for any controller or action
 		// Tip: you can use this event in any module
 		'on beforeAction'=>function(yii\base\ActionEvent $event) {
-				if ( $event->action->uniqueId == 'user-management/auth/login' )
+				if ( $event->action->uniqueId == 'user-management/auth/login' ||  $event->action->uniqueId == 'user-management/auth/registration')
 				{
 					$event->action->controller->layout = 'loginLayout.php';
 				};
@@ -79,14 +80,18 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
+        
+        // 'urlManager' => [
+        //     'class' => 'yii\web\UrlManager',
+        //     'enablePrettyUrl' => true,
+        //     'showScriptName' => false,
+        //     'rules' => [
+        //         '<controller:\w+>/<id:\d+>' => '<controller>/view',
+        //         '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+        //         '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+        //     ],
+        // ],
+        
     ],
     'params' => $params,
 ];

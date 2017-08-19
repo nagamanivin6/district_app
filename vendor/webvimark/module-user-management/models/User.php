@@ -265,7 +265,7 @@ class User extends UserIdentity
 			['bind_to_ip', 'validateBindToIp'],
 			['bind_to_ip', 'trim'],
 			['bind_to_ip', 'string', 'max' => 255],
-			[['dept_id'],'safe'],
+			[['dept_id','emp_id','father_name'],'safe'],
 			['password', 'required', 'on'=>['newUser', 'changePassword']],
 			['password', 'string', 'max' => 255, 'on'=>['newUser', 'changePassword']],
 			['password', 'trim', 'on'=>['newUser', 'changePassword']],
