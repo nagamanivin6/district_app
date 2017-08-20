@@ -9,19 +9,20 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use backend\components\BaseGlobalController;
 
 
 /**
  * DepartmentTypeController implements the CRUD actions for DepartmentType model.
  */
-class DepartmentTypeController extends Controller
+class DepartmentTypeController extends BaseGlobalController
 {
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
-        return [
+        return \yii\helpers\ArrayHelper::merge(parent::behaviors(), [
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => ['index', 'view', 'create','update','delete'],
@@ -39,7 +40,7 @@ class DepartmentTypeController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-        ];
+        ]);
     }
 
     /**

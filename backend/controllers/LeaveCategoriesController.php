@@ -3,18 +3,17 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\District;
-use backend\models\DistrictSearch;
+use backend\models\LeaveCategories;
+use backend\models\LeaveCategoriesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 use backend\components\BaseGlobalController;
 
 /**
- * DistrictController implements the CRUD actions for District model.
+ * LeaveCategoriesController implements the CRUD actions for LeaveCategories model.
  */
-class DistrictController extends BaseGlobalController
+class LeaveCategoriesController extends BaseGlobalController
 {
     /**
      * @inheritdoc
@@ -43,12 +42,12 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Lists all District models.
+     * Lists all LeaveCategories models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DistrictSearch();
+        $searchModel = new LeaveCategoriesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -58,7 +57,7 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Displays a single District model.
+     * Displays a single LeaveCategories model.
      * @param integer $id
      * @return mixed
      */
@@ -70,16 +69,16 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Creates a new District model.
+     * Creates a new LeaveCategories model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new District();
+        $model = new LeaveCategories();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->dist_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -88,7 +87,7 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Updates an existing District model.
+     * Updates an existing LeaveCategories model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -98,7 +97,7 @@ class DistrictController extends BaseGlobalController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->dist_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -107,7 +106,7 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Deletes an existing District model.
+     * Deletes an existing LeaveCategories model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -120,15 +119,15 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Finds the District model based on its primary key value.
+     * Finds the LeaveCategories model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return District the loaded model
+     * @return LeaveCategories the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = District::findOne($id)) !== null) {
+        if (($model = LeaveCategories::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

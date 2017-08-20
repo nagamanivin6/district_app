@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'user_regid',
             'value' => 'customer.user_name'
             ],
-             [
+            [
             'attribute' => 'status',
             'value' => 'statusInfo.status_name',
             'filter'=>ArrayHelper::map(Status::find()->asArray()->all(), 'status_id', 'status_name'),
