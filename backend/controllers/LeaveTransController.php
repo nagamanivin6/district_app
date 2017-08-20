@@ -3,18 +3,21 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\District;
-use backend\models\DistrictSearch;
+use backend\models\LeaveTrans;
+use backend\models\LeaveTransSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use backend\components\GlobalFunctions;
+use backend\components\LeaveStatus;
+use backend\models\Leave;
 use yii\filters\AccessControl;
 use backend\components\BaseGlobalController;
 
 /**
- * DistrictController implements the CRUD actions for District model.
+ * LeaveTransController implements the CRUD actions for LeaveTrans model.
  */
-class DistrictController extends BaseGlobalController
+class LeaveTransController extends BaseGlobalController
 {
     /**
      * @inheritdoc
@@ -43,12 +46,12 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Lists all District models.
+     * Lists all LeaveTrans models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DistrictSearch();
+        $searchModel = new LeaveTransSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -58,7 +61,7 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Displays a single District model.
+     * Displays a single LeaveTrans model.
      * @param integer $id
      * @return mixed
      */
@@ -70,25 +73,36 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Creates a new District model.
+     * Creates a new LeaveTrans model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new District();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->dist_id]);
+        $model = new LeaveTrans();
+        $leaveUserDetails = GlobalFunctions::GetEmployeeDetails(Yii::$app->user->id);
+        $model->emp_id = $leaveUserDetails->id;
+        if ($model->load(Yii::$app->request->post()) ) {
+            $model->leave_status = 1;//Applied Database Value
+            $model->leave_updated_by = Yii::$app->user->id;
+            $model->leave_updated_time = new \yii\db\Expression('NOW()');
+            if($model->save()){
+                $this->updateLeaves(Yii::$app->user->id,$model);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            else 
+                return $this->render('create', [
+                    'model' => $model,'leaveUserDetails'=>$leaveUserDetails
+                ]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $model,'leaveUserDetails'=>$leaveUserDetails
             ]);
         }
     }
 
     /**
-     * Updates an existing District model.
+     * Updates an existing LeaveTrans model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,18 +110,30 @@ class DistrictController extends BaseGlobalController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->dist_id]);
+        $leaveUserDetails = GlobalFunctions::GetEmployeeDetails($model->emp_id);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->leave_updated_by = Yii::$app->user->id;
+            $model->leave_updated_time = new \yii\db\Expression('NOW()');
+            if($model->save())
+                return $this->redirect(['view', 'id' => $model->id]);
+            else 
+                return $this->render('update', [
+                    'model' => $model,'leaveUserDetails'=>$leaveUserDetails
+                ]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                'model' => $model,'leaveUserDetails'=>$leaveUserDetails
             ]);
         }
     }
-
+    public function updateLeaves($emp_id,$model){
+        $updateLeaveTable = Leave::find()->where(['emp_id'=>$emp_id,'leave_category'=>$model->leave_category])->one();
+        $updateLeaveTable->used_leaves = $updateLeaveTable->used_leaves + $model->leave_days;
+        $updateLeaveTable->balanced_leaves = $updateLeaveTable->total_leaves - $updateLeaveTable->used_leaves;
+        $updateLeaveTable->save(false);
+    }
     /**
-     * Deletes an existing District model.
+     * Deletes an existing LeaveTrans model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -120,15 +146,15 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Finds the District model based on its primary key value.
+     * Finds the LeaveTrans model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return District the loaded model
+     * @return LeaveTrans the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = District::findOne($id)) !== null) {
+        if (($model = LeaveTrans::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

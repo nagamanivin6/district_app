@@ -3,52 +3,39 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\District;
-use backend\models\DistrictSearch;
+use backend\models\Leave;
+use backend\models\LeaveSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use backend\components\BaseGlobalController;
 
 /**
- * DistrictController implements the CRUD actions for District model.
+ * LeaveController implements the CRUD actions for Leave model.
  */
-class DistrictController extends BaseGlobalController
+class LeaveController extends Controller
 {
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
-        return \yii\helpers\ArrayHelper::merge(parent::behaviors(), [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'create','update','delete'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'view', 'create','update','delete'],
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
+        return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
-        ]);
+        ];
     }
 
     /**
-     * Lists all District models.
+     * Lists all Leave models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DistrictSearch();
+        $searchModel = new LeaveSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -58,7 +45,7 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Displays a single District model.
+     * Displays a single Leave model.
      * @param integer $id
      * @return mixed
      */
@@ -70,16 +57,16 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Creates a new District model.
+     * Creates a new Leave model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new District();
+        $model = new Leave();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->dist_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -88,7 +75,7 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Updates an existing District model.
+     * Updates an existing Leave model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -98,7 +85,7 @@ class DistrictController extends BaseGlobalController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->dist_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -107,7 +94,7 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Deletes an existing District model.
+     * Deletes an existing Leave model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -120,15 +107,15 @@ class DistrictController extends BaseGlobalController
     }
 
     /**
-     * Finds the District model based on its primary key value.
+     * Finds the Leave model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return District the loaded model
+     * @return Leave the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = District::findOne($id)) !== null) {
+        if (($model = Leave::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

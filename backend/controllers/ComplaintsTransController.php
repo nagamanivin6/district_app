@@ -8,25 +8,36 @@ use backend\models\ComplaintsTransSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use backend\components\BaseGlobalController;
 /**
  * ComplaintsTransController implements the CRUD actions for ComplaintsTrans model.
  */
-class ComplaintsTransController extends Controller
+class ComplaintsTransController extends BaseGlobalController
 {
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
-        return [
+        return \yii\helpers\ArrayHelper::merge(parent::behaviors(), [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create','update','delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create','update','delete'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
-        ];
+        ]);
     }
 
     /**
