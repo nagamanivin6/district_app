@@ -58,11 +58,9 @@ class ComplaintsSearch extends Complaints
        
         if(!Yii::$app->user->isSuperadmin) {
             $issues = ArrayHelper::map(Issue::find()->where(['dept_id'=>Yii::$app->user->identity->dept_id])->all(), 'issue_id', 'issue_id');
-            //print_r($issues); exit;
             $query->andFilterWhere([
                 Issue::tableName().'.issue_id' => $issues,
             ]);
-            //echo "<pre>";print_r(Yii::$app->user->identity->dept_id); exit;
         }
         else {
             $query->andFilterWhere([

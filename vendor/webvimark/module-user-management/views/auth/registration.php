@@ -17,7 +17,7 @@ use yii\jui\DatePicker;
  * @var webvimark\modules\UserManagement\models\forms\RegistrationForm $model
  */
 
-$this->title = UserManagementModule::t('front', 'Registration');
+$this->title = UserManagementModule::t('front', 'Employee Registration');
 $this->params['breadcrumbs'][] = $this->title;
 $departments = ArrayHelper::map(Department::find()->all(), 'dept_id', 'dept_name');
 $castes = ArrayHelper::map(Caste::find()->all(), 'caste_id', 'caste_name');

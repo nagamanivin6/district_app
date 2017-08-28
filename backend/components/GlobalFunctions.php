@@ -7,6 +7,7 @@ use yii\helpers\ArrayHelper;
 use backend\models\LeaveCategories;
 use backend\models\FinancialYear;
 use backend\models\LeaveStatus;
+use backend\models\Department;
 class GlobalFunctions {
 
     public static function GetAllEmployeeDetails(){
@@ -26,6 +27,9 @@ class GlobalFunctions {
     }
     public static function GetLeaveStatus(){
         return ArrayHelper::map(LeaveStatus::find()->where(['leave_status_boolean'=>1])->all(),'id','leave_status_name');
+    }
+    public static function getAllDepartmentList(){
+        return ArrayHelper::map(Department::find()->all(),'dept_id','dept_name');
     }
 }
 ?>

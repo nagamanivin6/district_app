@@ -90,7 +90,7 @@ class UserManagementModule extends \yii\base\Module
 	 *
 	 * @var array
 	 */
-	public $rolesAfterRegistration = [];
+	public $rolesAfterRegistration = ['employee'];
 
 	/**
 	 * Pattern that will be applied for names on registration.

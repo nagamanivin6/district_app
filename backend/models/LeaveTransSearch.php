@@ -53,11 +53,15 @@ class LeaveTransSearch extends LeaveTrans
 
         $this->load($params);
         if(!Yii::$app->user->isSuperadmin) {
-            $query->andFilterWhere(['like', User::tableName().'.id', Yii::$app->user->id]);
+            $query->andFilterWhere([
+                LeaveTrans::tableName().'.emp_id' => Yii::$app->user->id,
+            ]);
         }
         else {
             $users = ArrayHelper::map(User::find()->where(['dept_id'=>Yii::$app->user->identity->dept_id])->all(), 'id', 'id');
-            $query->andFilterWhere(['like', User::tableName().'.emp_id', $users]);
+            $query->andFilterWhere([
+                LeaveTrans::tableName().'.emp_id' => $users,
+            ]);
         }
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -77,7 +81,7 @@ class LeaveTransSearch extends LeaveTrans
             'leave_updated_by' => $this->leave_updated_by,
             'leave_updated_time' => $this->leave_updated_time,
         ]);
-        $query->andFilterWhere(['like', User::tableName().'.id', $this->emp_id]);
+        //$query->andFilterWhere(['like', User::tableName().'.id', $this->emp_id]);
         $query->andFilterWhere(['like', 'leave_description', $this->leave_description]);
 
         return $dataProvider;

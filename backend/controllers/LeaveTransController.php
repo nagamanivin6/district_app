@@ -87,7 +87,7 @@ class LeaveTransController extends BaseGlobalController
             $model->leave_updated_by = Yii::$app->user->id;
             $model->leave_updated_time = new \yii\db\Expression('NOW()');
             if($model->save()){
-                $this->updateLeaves(Yii::$app->user->id,$model);
+                
                 return $this->redirect(['view', 'id' => $model->id]);
             }
             else 
@@ -110,12 +110,17 @@ class LeaveTransController extends BaseGlobalController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $before_leave_status = $model->leave_status;
         $leaveUserDetails = GlobalFunctions::GetEmployeeDetails($model->emp_id);
         if ($model->load(Yii::$app->request->post())) {
             $model->leave_updated_by = Yii::$app->user->id;
             $model->leave_updated_time = new \yii\db\Expression('NOW()');
-            if($model->save())
+            if($model->save()) { 
+                if($before_leave_status == 1 && $model->leave_status == 2) {
+                   $this->updateLeaves($model->emp_id,$model);
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
+            }
             else 
                 return $this->render('update', [
                     'model' => $model,'leaveUserDetails'=>$leaveUserDetails
