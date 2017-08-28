@@ -11,7 +11,7 @@ use yii\widgets\Pjax;
 use webvimark\extensions\GridBulkActions\GridBulkActions;
 use webvimark\extensions\GridPageSize\GridPageSize;
 use yii\grid\GridView;
-
+use backend\components\GlobalFunctions;
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
@@ -86,15 +86,34 @@ $this->params['breadcrumbs'][] = $this->title;
 						'format'=>'raw',
 					],
 					[
-						'attribute'=>'email',
-						'format'=>'raw',
-						'visible'=>User::hasPermission('viewUserEmail'),
+						'attribute'=>'dept_id',
+						'value' => function(User $model){
+							return ($model->department) ? $model->department->dept_name : '';
+							},
+						'filter' => GlobalFunctions::getAllDepartmentList(),
 					],
 					[
-						'class'=>'webvimark\components\StatusColumn',
-						'attribute'=>'email_confirmed',
-						'visible'=>User::hasPermission('viewUserEmail'),
+						'attribute'=>'designation',
+						'value' => function(User $model){
+							return ($model->userDesignation) ? $model->userDesignation->designation_name : '';
+							},
 					],
+					[
+						'attribute'=>'emp_district',
+						'value' => function(User $model){
+							return ($model->userDistrict) ? $model->userDistrict->dist_name : '';
+							},
+					],
+					// [
+					// 	'attribute'=>'email',
+					// 	'format'=>'raw',
+					// 	'visible'=>User::hasPermission('viewUserEmail'),
+					// ],
+					// [
+					// 	'class'=>'webvimark\components\StatusColumn',
+					// 	'attribute'=>'email_confirmed',
+					// 	'visible'=>User::hasPermission('viewUserEmail'),
+					// ],
 					// [
 					// 	'attribute'=>'gridRoleSearch',
 					// 	'filter'=>ArrayHelper::map(Role::getAvailableRoles(Yii::$app->user->isSuperAdmin),'name', 'description'),

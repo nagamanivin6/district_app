@@ -5,6 +5,7 @@ namespace backend\models;
 use Yii;
 use webvimark\modules\UserManagement\models\User;
 use backend\models\LeaveCategories;
+use backend\models\LeaveStatus;
 /**
  * This is the model class for table "{{%leave_trans}}".
  *
@@ -67,5 +68,9 @@ class LeaveTrans extends \yii\db\ActiveRecord
     public function getLeaveCategory()
     {
             return $this->hasOne(LeaveCategories::className(), ['id' => 'leave_category']);
+    }
+     public function getLeaveStatus()
+    {
+            return $this->hasOne(LeaveStatus::className(), ['id' => 'leave_status']);
     }
 }

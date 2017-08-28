@@ -35,7 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter'=>GlobalFunctions::GetLeaveCategories(),
             ],
             'leave_description:ntext',
+            'leave_from',
+            'leave_to',
             'leave_days',
+            [
+            'attribute' => 'leave_status',
+            'value' => 'leaveStatus.leave_status_name',
+            'filter'=>GlobalFunctions::GetLeaveStatus(),
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

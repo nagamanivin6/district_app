@@ -11,7 +11,9 @@ use webvimark\modules\UserManagement\models\rbacDB\Route;
 use webvimark\modules\UserManagement\UserManagementModule;
 use Yii;
 use yii\behaviors\TimestampBehavior;
-
+use backend\models\Department;
+use backend\models\Designation;
+use backend\models\District;
 /**
  * This is the model class for table "user".
  *
@@ -422,5 +424,15 @@ class User extends UserIdentity
 		}
 
 		return parent::beforeDelete();
+	}
+
+	public function getDepartment(){
+		 return $this->hasOne(Department::className(), ['dept_id' => 'dept_id']);
+	}
+	public function getUserDesignation(){
+		 return $this->hasOne(Designation::className(), ['designation_id' => 'designation']);
+	}
+	public function getUserDistrict(){
+		return $this->hasOne(District::className(), ['dist_id' => 'emp_district']);
 	}
 }
