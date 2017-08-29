@@ -116,8 +116,11 @@ class LeaveTransController extends BaseGlobalController
             $model->leave_updated_by = Yii::$app->user->id;
             $model->leave_updated_time = new \yii\db\Expression('NOW()');
             if($model->save()) { 
-                if($before_leave_status == 1 && $model->leave_status == 2) {
-                   $this->updateLeaves($model->emp_id,$model);
+                if($before_leave_status != 2 && $model->leave_status == 2) {
+                   $this->updateLeaves($model->emp_id,$model,'add');
+                }
+                else if($before_leave_status == 2 && $model->leave_status != 2){
+                    $this->updateLeaves($model->emp_id,$model,'subtract');
                 }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -131,9 +134,14 @@ class LeaveTransController extends BaseGlobalController
             ]);
         }
     }
-    public function updateLeaves($emp_id,$model){
+    public function updateLeaves($emp_id,$model,$type){
         $updateLeaveTable = Leave::find()->where(['emp_id'=>$emp_id,'leave_category'=>$model->leave_category])->one();
-        $updateLeaveTable->used_leaves = $updateLeaveTable->used_leaves + $model->leave_days;
+        if($type == 'add') {
+            $updateLeaveTable->used_leaves = $updateLeaveTable->used_leaves + $model->leave_days;
+        }
+        else {
+            $updateLeaveTable->used_leaves = $updateLeaveTable->used_leaves - $model->leave_days;
+        }
         $updateLeaveTable->balanced_leaves = $updateLeaveTable->total_leaves - $updateLeaveTable->used_leaves;
         $updateLeaveTable->save(false);
     }

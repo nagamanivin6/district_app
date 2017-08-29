@@ -7,9 +7,14 @@ use yii\widgets\Pjax;
 use backend\models\LeaveSearch;
 use backend\components\GlobalFunctions;
 use yii\jui\DatePicker;
+use webvimark\modules\UserManagement\models\rbacDB\Role;
 $searchModel = new LeaveSearch();
 $searchModel->emp_id = $leaveUserDetails->id;
 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+$roles = array_keys(Role::getUserRoles(Yii::$app->user->id));
+
+//echo "<pre>"; print_r(Yii::$app->user->id);print_r($oldAssignments); exit;
 /* @var $this yii\web\View */
 /* @var $model backend\models\LeaveTrans */
 /* @var $form yii\widgets\ActiveForm */
@@ -96,7 +101,7 @@ $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
                 'clientOptions' => ['disabled'=>($model->isNewRecord) ? false : true]
 			]) ?>
         </div>
-        <?php if(!$model->isNewRecord) : ?>
+        <?php if(!$model->isNewRecord && (Yii::$app->user->isSuperAdmin || in_array('administrator',$roles))) : ?>
          <div class="col-xs-4">
             <?= $form->field($model, 'leave_status')->dropdownList(GlobalFunctions::GetLeaveStatus(), [
                 'prompt' => 'change Status',
