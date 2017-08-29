@@ -22,10 +22,6 @@ $financialYears = GlobalFunctions::GetFinancialYear();
 
     <?= $form->field($model, 'financial_year')->dropDownList($financialYears,['prompt'=>Yii::t('app','Select Financial Year')]  ) ?>
 
-    <?= $form->field($model, 'used_leaves')->textInput() ?>
-
-    <?= $form->field($model, 'balanced_leaves')->textInput() ?>
-
     <?= $form->field($model, 'total_leaves')->textInput() ?>
 
     <div class="form-group">
