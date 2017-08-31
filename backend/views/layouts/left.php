@@ -38,7 +38,7 @@ use webvimark\modules\UserManagement\UserManagementModule;
                     ['label' => 'Village',  'url' => ['/village/index']],
                     ['label' => 'Issue','url' => ['/issue/index']],
                     ['label' => 'Complaints',  'url' => ['/complaints/index']],
-                    ['label' => 'Admin Leave Management',  'url' => ['/leave/index']],
+                    ['label' => 'Leave Management',  'url' => ['/leave/index']],
                     ['label' => 'Employee Leave Management',  'url' => ['/leave-trans/index']],
                     ['label' => 'Employees',  'url' => ['/user-management/user/index']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],

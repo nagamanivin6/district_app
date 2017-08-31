@@ -173,4 +173,22 @@ class LeaveTransController extends BaseGlobalController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionCalcleaves(){
+        $from_date = $_POST['from_date'];
+        $to_date = $_POST['to_date'];
+        if($from_date && $to_date) {
+            $from_date_format = new \DateTime($from_date);
+            $to_date_format = new \DateTime($to_date);
+            $interval = $from_date_format->diff($to_date_format);
+            $formatted_interval = $interval->format('%R%a');
+            if($formatted_interval > 0 ) {
+                return $formatted_interval + 1;
+            }
+            else return 0;
+        }
+        else {
+            return 0;
+        }
+    }
 }

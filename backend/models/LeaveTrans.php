@@ -39,6 +39,7 @@ class LeaveTrans extends \yii\db\ActiveRecord
             [['emp_id', 'leave_category', 'leave_description', 'leave_days', 'leave_from', 'leave_to', 'leave_status', 'leave_updated_by', 'leave_updated_time'], 'required'],
             [['emp_id', 'leave_category', 'leave_days', 'leave_status', 'leave_updated_by'], 'integer'],
             [['leave_description'], 'string'],
+            ['leave_from','lastDateValidation'],
             [['leave_from', 'leave_to', 'leave_updated_time'], 'safe'],
         ];
     }
@@ -60,6 +61,12 @@ class LeaveTrans extends \yii\db\ActiveRecord
             'leave_updated_by' => Yii::t('app', 'Leave Updated By'),
             'leave_updated_time' => Yii::t('app', 'Leave Updated Time'),
         ];
+    }
+    public function lastDateValidation($attribute){
+        if(strtotime($this->leave_to) <= strtotime($this->leave_from)){
+            $this->addError('leave_from',Yii::t('app', 'Please give correct Start and End dates'));
+            $this->addError('leave_to',Yii::t('app', 'Please give correct Start and End dates'));
+        }
     }
     public function getEmployee()
     {

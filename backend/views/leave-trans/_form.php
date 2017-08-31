@@ -85,26 +85,31 @@ $roles = array_keys(Role::getUserRoles(Yii::$app->user->id));
             <?= $form->field($model, 'leave_category')->dropdownList(GlobalFunctions::GetLeaveCategories(),['class'=>'','prompt'=>'Select Category','disabled'=>($model->isNewRecord) ? false : true]) ?>
         </div>
         <div class="col-xs-6">
-            <?= $form->field($model, 'leave_days')->textInput(['class'=>'','disabled'=>($model->isNewRecord) ? false : true]) ?>
+            <?= $form->field($model, 'leave_days')->textInput(['class'=>'','id'=>'leave_days_count','disabled'=>($model->isNewRecord) ? false : true]) ?>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-4">
             <?= $form->field($model, 'leave_from')->widget(DatePicker::classname(), [
 				'dateFormat' => 'yyyy-MM-dd',
-                'clientOptions' => ['disabled'=>($model->isNewRecord) ? false : true]
+                'clientOptions' => ['disabled'=>($model->isNewRecord) ? false : true,'id'=>'leave_from_date','onSelect' => new \yii\web\JsExpression('function(dateText) { $.post( "'.Yii::$app->urlManager->createUrl('leave-trans/calcleaves').'",{from_date: $(this).val(),to_date:$("#leavetrans-leave_to").val()}, function( data ) {
+                  $("#leave_days_count" ).val( data )
+                }); }')]
 			]) ?>
         </div>
         <div class="col-xs-4">
             <?= $form->field($model, 'leave_to')->widget(DatePicker::classname(), [
 				'dateFormat' => 'yyyy-MM-dd',
-                'clientOptions' => ['disabled'=>($model->isNewRecord) ? false : true]
+                'clientOptions' => ['disabled'=>($model->isNewRecord) ? false : true,'id'=>'leave_to_date','onSelect' => new \yii\web\JsExpression('function(dateText) { $.post( "'.Yii::$app->urlManager->createUrl('leave-trans/calcleaves').'",{to_date: $(this).val(),from_date:$("#leavetrans-leave_from").val()}, function( data ) {
+                  $("#leave_days_count" ).val( data )
+                }); }')],
 			]) ?>
         </div>
-        <?php if(!$model->isNewRecord && (Yii::$app->user->isSuperAdmin || in_array('administrator',$roles))) : ?>
+        <?php if(!$model->isNewRecord) : ?>
          <div class="col-xs-4">
             <?= $form->field($model, 'leave_status')->dropdownList(GlobalFunctions::GetLeaveStatus(), [
                 'prompt' => 'change Status',
+                'disabled'=> !(Yii::$app->user->isSuperAdmin || in_array('administrator',$roles)),
                 'class'=>'yes'
 			]) ?>
         </div>

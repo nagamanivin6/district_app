@@ -28,14 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'emp_id',
-            'leave_category',
+            'employee.username',
+            'leaveCategory.leave_category_name',
             'leave_description:ntext',
             'leave_days',
             'leave_from',
             'leave_to',
-            'leave_status',
+            'leaveStatus.leave_status_name',
             'leave_updated_by',
             'leave_updated_time',
         ],
