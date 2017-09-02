@@ -30,14 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter'=>GlobalFunctions::GetAllEmployeeDetails(),
             ],
             [
-            'attribute' => 'leave_category',
-            'value' => 'leaveCategory.leave_category_name',
-            'filter'=>GlobalFunctions::GetLeaveCategories(),
-            ],
-            [
             'attribute' => 'financial_year',
             'value' => 'financialYear.financial_year_name',
             'filter'=>GlobalFunctions::GetFinancialYear(),
+            ],
+            [
+            'attribute' => 'leave_category',
+            'value' => 'leaveCategory.leave_category_name',
+            'filter'=>GlobalFunctions::GetLeaveCategories(),
             ],
             'used_leaves',
             'balanced_leaves',

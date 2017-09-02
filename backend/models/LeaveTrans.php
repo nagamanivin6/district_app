@@ -36,8 +36,8 @@ class LeaveTrans extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_id', 'leave_category', 'leave_description', 'leave_days', 'leave_from', 'leave_to', 'leave_status', 'leave_updated_by', 'leave_updated_time'], 'required'],
-            [['emp_id', 'leave_category', 'leave_days', 'leave_status', 'leave_updated_by'], 'integer'],
+            [['emp_id', 'leave_category', 'leave_description', 'leave_days', 'leave_from', 'leave_to', 'leave_status', 'leave_updated_by', 'leave_updated_time','leave_financial_year'], 'required'],
+            [['emp_id', 'leave_category', 'leave_days', 'leave_status', 'leave_updated_by','leave_financial_year'], 'integer'],
             [['leave_description'], 'string'],
             ['leave_from','lastDateValidation'],
             [['leave_from', 'leave_to', 'leave_updated_time'], 'safe'],
@@ -53,6 +53,7 @@ class LeaveTrans extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'emp_id' => Yii::t('app', 'Emp ID'),
             'leave_category' => Yii::t('app', 'Leave Category'),
+            'leave_financial_year'=> Yii::t('app','Financial Year'),
             'leave_description' => Yii::t('app', 'Leave Description'),
             'leave_days' => Yii::t('app', 'No Of Days'),
             'leave_from' => Yii::t('app', 'Leave From'),
