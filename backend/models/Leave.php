@@ -35,6 +35,7 @@ class Leave extends \yii\db\ActiveRecord
         return [
             [['emp_id', 'leave_category', 'financial_year', 'used_leaves', 'balanced_leaves', 'total_leaves'], 'required'],
             [['emp_id', 'leave_category', 'financial_year', 'used_leaves', 'balanced_leaves', 'total_leaves'], 'integer'],
+            [['leave_category', 'emp_id' ,'financial_year'], 'unique', 'targetAttribute' => ['leave_category', 'emp_id' ,'financial_year'],'message'=> Yii::t('app','The combination of employee,leaveCategory,financialYear is already taken')]
         ];
     }
 

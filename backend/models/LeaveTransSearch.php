@@ -20,8 +20,8 @@ class LeaveTransSearch extends LeaveTrans
     public function rules()
     {
         return [
-            [['id', 'emp_id', 'leave_category', 'leave_days', 'leave_status', 'leave_updated_by'], 'integer'],
-            [['leave_description', 'leave_from', 'leave_to', 'leave_updated_time'], 'safe'],
+            [['id', 'emp_id', 'leave_category', 'leave_days', 'leave_status', 'leave_updated_by','leave_financial_year'], 'integer'],
+            [['leave_description', 'leave_from', 'leave_to', 'leave_updated_time','leave_financial_year'], 'safe'],
         ];
     }
 
@@ -80,6 +80,7 @@ class LeaveTransSearch extends LeaveTrans
             'leave_status' => $this->leave_status,
             'leave_updated_by' => $this->leave_updated_by,
             'leave_updated_time' => $this->leave_updated_time,
+            'leave_financial_year'=>$this->leave_financial_year
         ]);
         //$query->andFilterWhere(['like', User::tableName().'.id', $this->emp_id]);
         $query->andFilterWhere(['like', 'leave_description', $this->leave_description]);
