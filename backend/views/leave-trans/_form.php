@@ -68,6 +68,7 @@ $roles = array_keys(Role::getUserRoles(Yii::$app->user->id));
             'attribute' => 'leave_category',
             'value' => 'leaveCategory.leave_category_name',
             ],
+            'financialYear.financial_year_name',
             'used_leaves',
             'balanced_leaves',
             'total_leaves',
@@ -81,11 +82,14 @@ $roles = array_keys(Role::getUserRoles(Yii::$app->user->id));
     <!--<?= $form->field($model, 'emp_id')->textInput() ?>-->
 
     <div class="row">
-        <div class="col-xs-6">
+        <div class="col-xs-4">
             <?= $form->field($model, 'leave_category')->dropdownList(GlobalFunctions::GetLeaveCategories(),['class'=>'','prompt'=>'Select Category','disabled'=>($model->isNewRecord) ? false : true]) ?>
         </div>
-        <div class="col-xs-6">
-            <?= $form->field($model, 'leave_days')->textInput(['class'=>'','id'=>'leave_days_count','disabled'=>($model->isNewRecord) ? false : true]) ?>
+        <div class="col-xs-4">
+            <?= $form->field($model, 'leave_financial_year')->dropdownList(GlobalFunctions::GetFinancialYear(),['class'=>'','prompt'=>'Select Year','disabled'=>($model->isNewRecord) ? false : true]) ?>
+        </div>
+        <div class="col-xs-4">
+            <?= $form->field($model, 'leave_days')->textInput(['class'=>'','id'=>'leave_days_count','disabled'=> true]) ?>
         </div>
     </div>
     <div class="row">

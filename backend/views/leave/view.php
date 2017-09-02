@@ -28,10 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'emp_id',
-            'leave_category',
-            'financial_year',
+            'employee.username',
+            'financialYear.financial_year_name',
+            'leaveCategory.leave_category_name',
             'used_leaves',
             'balanced_leaves',
             'total_leaves',

@@ -135,7 +135,7 @@ class LeaveTransController extends BaseGlobalController
         }
     }
     public function updateLeaves($emp_id,$model,$type){
-        $updateLeaveTable = Leave::find()->where(['emp_id'=>$emp_id,'leave_category'=>$model->leave_category])->one();
+        $updateLeaveTable = Leave::find()->where(['emp_id'=>$emp_id,'leave_category'=>$model->leave_category,'financial_year'=>$model->leave_financial_year])->one();
         if($type == 'add') {
             $updateLeaveTable->used_leaves = $updateLeaveTable->used_leaves + $model->leave_days;
         }
