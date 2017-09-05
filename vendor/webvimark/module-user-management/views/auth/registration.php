@@ -31,13 +31,31 @@ $selectedSubCasteGroups = [];
 <div class="user-registration">
 
 	<h2 class="text-center"><?= $this->title ?></h2>
+	<!--<div class="row">
+  <div class="col-sm-12 col-md-6">
+    <div class="row">LABEL</div><div class="col-sm-12 col-md-6"><input type="text"/></div>
+     <div class="col-sm-12 col-md-6">
+    </row>
+    <div class="row">LABEL2</div><div class="col-sm-12 col-md-6"><input type="text"/></div>
+     <div class="col-sm-12 col-md-6">
+    </row>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <div class="row">LABEL3</div><div class="col-sm-12 col-md-6"><input type="text"/></div>
+     <div class="col-sm-12 col-md-6">
+    </row>
+    <div class="row">LABEL4</div><div class="col-sm-12 col-md-6"><input type="text"/></div>
+     <div class="col-sm-12 col-md-6">
+    </row>
+  </div>
+</div>-->
 	<div class="row" style="width:100%">
 		<?php $form = ActiveForm::begin([
 			'id'=>'user',
 			'layout'=>'horizontal',
 			'validateOnBlur'=>false,
 		]); ?>
-		<div class="col-lg-6">
+		<div class="col-sm-12 col-md-6">
 		
 			<?= $form->field($model, 'emp_id')->textInput(['maxlength' => 50, 'autocomplete'=>'off', 'autofocus'=>true]) ?>
 
@@ -73,7 +91,7 @@ $selectedSubCasteGroups = [];
 				'captchaAction'=>['/user-management/auth/captcha']
 			]) ?>-->
 		</div>
-		<div class="col-lg-6">
+		<div class="col-sm-12 col-md-6">
 			<?= $form->field($model, 'dept_id')->dropDownList($departments,['prompt'=>Yii::t('app','Select department')]) ?>
 
 			<?= $form->field($model, 'father_name')->textInput(['maxlength' => 50, 'autocomplete'=>'off']) ?>

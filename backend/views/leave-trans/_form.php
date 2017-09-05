@@ -14,7 +14,6 @@ $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 $roles = array_keys(Role::getUserRoles(Yii::$app->user->id));
 
-//echo "<pre>"; print_r(Yii::$app->user->id);print_r($oldAssignments); exit;
 /* @var $this yii\web\View */
 /* @var $model backend\models\LeaveTrans */
 /* @var $form yii\widgets\ActiveForm */
@@ -79,24 +78,23 @@ $roles = array_keys(Role::getUserRoles(Yii::$app->user->id));
     <div style="font-size: 12pt;margin-top: 5px;">
         <b><?php echo Yii::t('app','Leave Applied For'); ?></b>
     </div>
-    <!--<?= $form->field($model, 'emp_id')->textInput() ?>-->
 
     <div class="row">
         <div class="col-xs-4">
-            <?= $form->field($model, 'leave_category')->dropdownList(GlobalFunctions::GetLeaveCategories(),['class'=>'','prompt'=>'Select Category','disabled'=>($model->isNewRecord) ? false : true]) ?>
+            <?= $form->field($model, 'leave_category')->dropdownList(GlobalFunctions::GetLeaveCategories(),['class'=>'','prompt'=>'Select Category','disabled'=>($model->leave_status !== 1 || Yii::$app->user->id != $model->emp_id) ? true : false]) ?>
         </div>
         <div class="col-xs-4">
-            <?= $form->field($model, 'leave_financial_year')->dropdownList(GlobalFunctions::GetFinancialYear(),['class'=>'','prompt'=>'Select Year','disabled'=>($model->isNewRecord) ? false : true]) ?>
+            <?= $form->field($model, 'leave_financial_year')->dropdownList(GlobalFunctions::GetFinancialYear(),['class'=>'','prompt'=>'Select Year','disabled'=>($model->leave_status !== 1 || Yii::$app->user->id != $model->emp_id) ? true : false]) ?>
         </div>
         <div class="col-xs-4">
-            <?= $form->field($model, 'leave_days')->textInput(['class'=>'','id'=>'leave_days_count','disabled'=> true]) ?>
+            <?= $form->field($model, 'leave_days')->textInput(['class'=>'','id'=>'leave_days_count','readonly'=> true]) ?>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-4">
             <?= $form->field($model, 'leave_from')->widget(DatePicker::classname(), [
 				'dateFormat' => 'yyyy-MM-dd',
-                'clientOptions' => ['disabled'=>($model->isNewRecord) ? false : true,'id'=>'leave_from_date','onSelect' => new \yii\web\JsExpression('function(dateText) { $.post( "'.Yii::$app->urlManager->createUrl('leave-trans/calcleaves').'",{from_date: $(this).val(),to_date:$("#leavetrans-leave_to").val()}, function( data ) {
+                'clientOptions' => ['disabled'=>($model->leave_status !== 1 || Yii::$app->user->id != $model->emp_id) ? true : false,'id'=>'leave_from_date','onSelect' => new \yii\web\JsExpression('function(dateText) { $.post( "'.Yii::$app->urlManager->createUrl('leave-trans/calcleaves').'",{from_date: $(this).val(),to_date:$("#leavetrans-leave_to").val()}, function( data ) {
                   $("#leave_days_count" ).val( data )
                 }); }')]
 			]) ?>
@@ -104,7 +102,7 @@ $roles = array_keys(Role::getUserRoles(Yii::$app->user->id));
         <div class="col-xs-4">
             <?= $form->field($model, 'leave_to')->widget(DatePicker::classname(), [
 				'dateFormat' => 'yyyy-MM-dd',
-                'clientOptions' => ['disabled'=>($model->isNewRecord) ? false : true,'id'=>'leave_to_date','onSelect' => new \yii\web\JsExpression('function(dateText) { $.post( "'.Yii::$app->urlManager->createUrl('leave-trans/calcleaves').'",{to_date: $(this).val(),from_date:$("#leavetrans-leave_from").val()}, function( data ) {
+                'clientOptions' => ['disabled'=>($model->leave_status !== 1 || Yii::$app->user->id != $model->emp_id) ? true : false,'id'=>'leave_to_date','onSelect' => new \yii\web\JsExpression('function(dateText) { $.post( "'.Yii::$app->urlManager->createUrl('leave-trans/calcleaves').'",{to_date: $(this).val(),from_date:$("#leavetrans-leave_from").val()}, function( data ) {
                   $("#leave_days_count" ).val( data )
                 }); }')],
 			]) ?>

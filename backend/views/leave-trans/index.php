@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use backend\components\GlobalFunctions;
@@ -43,7 +44,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'value' => 'leaveStatus.leave_status_name',
             'filter'=>GlobalFunctions::GetLeaveStatus(),
             ],
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'visibleButtons' => [
+                    'delete' => function ($model, $key, $index) {
+                        return ($model->leave_status !== 1 || $model->emp_id !== Yii::$app->user->id )? false : true;
+                    },
+                    'update' => function ($model, $key, $index) {
+                        return $model->leave_status !== 1 ? false : true;
+                    }
+                ]
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

@@ -28,14 +28,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'employee.username',
+            [
+                "label" => Yii::t('app', 'Employee Name'),
+                "value" => ($model->employee) ? $model->employee->username : ''
+            ],
             'leaveCategory.leave_category_name',
             'leave_description:ntext',
             'leave_days',
             'leave_from',
             'leave_to',
             'leaveStatus.leave_status_name',
-            'leave_updated_by',
+            [
+                "label" =>  Yii::t('app', 'Leave Updated By'),
+                "value" => ($model->headOfDept) ? $model->headOfDept->username : ''
+            ],
+           // 'headOfDept.username',
             'leave_updated_time',
         ],
     ]) ?>
